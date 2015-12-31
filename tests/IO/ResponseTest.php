@@ -2,9 +2,9 @@
 
 namespace Waavi\ReCaptcha\Test;
 
-use Waavi\ReCaptcha\GoogleResponse;
+use Waavi\ReCaptcha\IO\Response;
 
-class GoogleResponseTest extends TestCase
+class ResponseTest extends TestCase
 {
     /**
      *  @test
@@ -14,7 +14,7 @@ class GoogleResponseTest extends TestCase
         $input = json_encode([
             'success' => true,
         ]);
-        $response = new GoogleResponse($input);
+        $response = new Response($input);
         $this->assertTrue($response->isSuccess());
         $this->assertEquals([], $response->getErrorCodes());
         $this->assertEquals([], $response->getErrorMessage());
@@ -29,7 +29,7 @@ class GoogleResponseTest extends TestCase
             'success'     => true,
             'error-codes' => ['missing-input-secret', 'invalid-input-secret'],
         ]);
-        $response = new GoogleResponse($input);
+        $response = new Response($input);
         $this->assertTrue($response->isSuccess());
         $this->assertEquals([], $response->getErrorCodes());
         $this->assertEquals([], $response->getErrorMessage());
@@ -44,7 +44,7 @@ class GoogleResponseTest extends TestCase
             'success'     => false,
             'error-codes' => ['missing-input-secret', 'invalid-input-secret'],
         ]);
-        $response = new GoogleResponse($input);
+        $response = new Response($input);
         $this->assertFalse($response->isSuccess());
         $this->assertEquals(['missing-input-secret', 'invalid-input-secret'], $response->getErrorCodes());
         $this->assertEquals(['The secret parameter is missing.', 'The secret parameter is invalid or malformed.'], $response->getErrorMessage());
@@ -58,7 +58,7 @@ class GoogleResponseTest extends TestCase
         $input = json_encode([
             'success' => false,
         ]);
-        $response = new GoogleResponse($input);
+        $response = new Response($input);
         $this->assertFalse($response->isSuccess());
         $this->assertEquals(['unknown'], $response->getErrorCodes());
         $this->assertEquals(['Unknown Google ReCaptcha error.'], $response->getErrorMessage());
@@ -73,7 +73,19 @@ class GoogleResponseTest extends TestCase
             'success'     => false,
             'error-codes' => ['non-error-code'],
         ]);
-        $response = new GoogleResponse($input);
+        $response = new Response($input);
+        $this->assertFalse($response->isSuccess());
+        $this->assertEquals(['unknown'], $response->getErrorCodes());
+        $this->assertEquals(['Unknown Google ReCaptcha error.'], $response->getErrorMessage());
+    }
+
+    /**
+     *  @test
+     */
+    public function it_parses_empty_responses_as_unknown_error()
+    {
+        $input    = null;
+        $response = new Response($input);
         $this->assertFalse($response->isSuccess());
         $this->assertEquals(['unknown'], $response->getErrorCodes());
         $this->assertEquals(['Unknown Google ReCaptcha error.'], $response->getErrorMessage());

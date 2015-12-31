@@ -1,8 +1,8 @@
 <?php
 
-namespace Waavi\ReCaptcha;
+namespace Waavi\ReCaptcha\IO;
 
-class GoogleResponse
+class Response
 {
     /**
      *  Allowed error codes
