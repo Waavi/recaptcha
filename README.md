@@ -15,12 +15,12 @@ WAAVI is a web development studio based in Madrid, Spain. You can learn more abo
 
 Require through composer
 
-    composer require waavi/recaptcha ~1.0
+    composer require waavi/recaptcha 1.0.x
 
 Or manually edit your composer.json file:
 
     "require": {
-        "waavi/recaptcha": "~1.0"
+        "waavi/recaptcha": "1.0.x"
     }
 
 In config/app.php, add the following entry to the end of the providers array:

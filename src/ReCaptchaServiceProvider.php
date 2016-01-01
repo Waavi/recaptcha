@@ -30,6 +30,7 @@ class ReCaptchaServiceProvider extends ServiceProvider
         $this->mergeConfigFrom(
             __DIR__ . '/../config/recaptcha.php', 'recaptcha'
         );
+        $this->app->make('validator')->extendImplicit('recaptcha', 'Waavi\ReCaptcha\Validator@validate', 'ReCaptcha error');
     }
 
     /**
@@ -48,6 +49,5 @@ class ReCaptchaServiceProvider extends ServiceProvider
         $this->app->bind('Waavi\ReCaptcha\Validator', function ($app) {
             return new Validator($app['recaptcha']);
         });
-        $this->app->make('validator')->extendImplicit('recaptcha', 'Waavi\ReCaptcha\Validator@validate', 'ReCaptcha error');
     }
 }
