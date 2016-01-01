@@ -1,5 +1,5 @@
 {
-    "name": "waavi/save-url",
+    "name": "waavi/recaptcha",
     "description": "Google Recaptcha for Laravel 5",
     "keywords": [
         "waavi",
