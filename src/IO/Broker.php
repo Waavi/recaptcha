@@ -2,23 +2,20 @@
 
 namespace Waavi\ReCaptcha\IO;
 
-class Request
+class Broker
 {
-    public function __construct($url, $secret, $timeout, $response, $ip)
+    public function __construct($url, $secret, $timeout)
     {
-        $this->url      = $url;
-        $this->secret   = $secret;
-        $this->timeout  = $timeout;
-        $this->response = $response;
-        $this->ip       = $ip;
+        $this->url     = $url;
+        $this->secret  = $secret;
+        $this->timeout = $timeout;
     }
 
-    public function getResponse()
+    public function getResponse($input)
     {
         $parameters = http_build_query([
             'secret'   => $this->secret,
-            'remoteip' => $this->ip,
-            'response' => $this->response,
+            'response' => $input,
         ]);
         $url = $this->url . $parameters;
 

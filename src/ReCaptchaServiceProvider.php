@@ -11,7 +11,7 @@ class ReCaptchaServiceProvider extends ServiceProvider
      *
      * @var bool
      */
-    protected $defer = false;
+    protected $defer = true;
 
     /**
      * Bootstrap the application events.
@@ -39,7 +39,26 @@ class ReCaptchaServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        $this->app->singleton('recaptcha.broker', function ($app) {
+            return new IO\Broker($app['config']->get('recaptcha.url'), $app['config']->get('recaptcha.keys.secret'), $app['config']->get('recaptcha.timeout'));
+        });
+        $this->app->singleton('recaptcha', function ($app) {
+            return new ReCaptcha($app['recaptcha.broker'], $app['config']->get('recaptcha.keys.site'));
+        });
+        $this->app->bind('Waavi\ReCaptcha\Validator', function ($app) {
+            return new Validator($app['recaptcha']);
+        });
 
+        $this->app->make('validator')->extendImplicit('recaptcha', 'Waavi\ReCaptcha\Validator@validate', $this->app->make('translator')->get('recaptcha::validation-error'));
     }
 
+    /**
+     * Get the services provided by the provider.
+     *
+     * @return array
+     */
+    public function provides()
+    {
+        return ['recaptcha', 'recaptcha.broker'];
+    }
 }

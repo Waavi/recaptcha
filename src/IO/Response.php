@@ -85,7 +85,7 @@ class Response
      *
      *  @return string
      */
-    public function getErrorMessage()
+    public function getErrorMessages()
     {
         return $this->errorMessages;
     }

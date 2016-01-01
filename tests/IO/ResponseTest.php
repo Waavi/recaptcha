@@ -1,11 +1,18 @@
 <?php
 
-namespace Waavi\ReCaptcha\Test;
+namespace Waavi\ReCaptcha\Test\IO;
 
 use Waavi\ReCaptcha\IO\Response;
+use Waavi\ReCaptcha\Test\TestCase;
 
 class ResponseTest extends TestCase
 {
+    public function setUp()
+    {
+        parent::setUp();
+        // Force the deferred autoloader to load
+        $this->app['recaptcha'];
+    }
     /**
      *  @test
      */
@@ -17,7 +24,7 @@ class ResponseTest extends TestCase
         $response = new Response($input);
         $this->assertTrue($response->isSuccess());
         $this->assertEquals([], $response->getErrorCodes());
-        $this->assertEquals([], $response->getErrorMessage());
+        $this->assertEquals([], $response->getErrorMessages());
     }
 
     /**
@@ -32,7 +39,7 @@ class ResponseTest extends TestCase
         $response = new Response($input);
         $this->assertTrue($response->isSuccess());
         $this->assertEquals([], $response->getErrorCodes());
-        $this->assertEquals([], $response->getErrorMessage());
+        $this->assertEquals([], $response->getErrorMessages());
     }
 
     /**
@@ -47,7 +54,7 @@ class ResponseTest extends TestCase
         $response = new Response($input);
         $this->assertFalse($response->isSuccess());
         $this->assertEquals(['missing-input-secret', 'invalid-input-secret'], $response->getErrorCodes());
-        $this->assertEquals(['The secret parameter is missing.', 'The secret parameter is invalid or malformed.'], $response->getErrorMessage());
+        $this->assertEquals(['The secret parameter is missing.', 'The secret parameter is invalid or malformed.'], $response->getErrorMessages());
     }
 
     /**
@@ -61,7 +68,7 @@ class ResponseTest extends TestCase
         $response = new Response($input);
         $this->assertFalse($response->isSuccess());
         $this->assertEquals(['unknown'], $response->getErrorCodes());
-        $this->assertEquals(['Unknown Google ReCaptcha error.'], $response->getErrorMessage());
+        $this->assertEquals(['Unknown Google ReCaptcha error.'], $response->getErrorMessages());
     }
 
     /**
@@ -76,7 +83,7 @@ class ResponseTest extends TestCase
         $response = new Response($input);
         $this->assertFalse($response->isSuccess());
         $this->assertEquals(['unknown'], $response->getErrorCodes());
-        $this->assertEquals(['Unknown Google ReCaptcha error.'], $response->getErrorMessage());
+        $this->assertEquals(['Unknown Google ReCaptcha error.'], $response->getErrorMessages());
     }
 
     /**
@@ -88,6 +95,6 @@ class ResponseTest extends TestCase
         $response = new Response($input);
         $this->assertFalse($response->isSuccess());
         $this->assertEquals(['unknown'], $response->getErrorCodes());
-        $this->assertEquals(['Unknown Google ReCaptcha error.'], $response->getErrorMessage());
+        $this->assertEquals(['Unknown Google ReCaptcha error.'], $response->getErrorMessages());
     }
 }
