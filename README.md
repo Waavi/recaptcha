@@ -40,7 +40,11 @@ Enter your secret and site keys provided by Google in either your environment fi
     RECAPTCHA_SITE_KEY=site_key
     RECAPTCHA_SECRET_KEY=secret_key
 
-If you wish to 
+A simple error message in english is provided when validation of a recaptcha fails. If you wish to customize it, add to your validation.php lang file the following entry:
+
+    ```php
+    'recaptcha' =>  'Your error message here',
+    ```
 
 ## Usage
 

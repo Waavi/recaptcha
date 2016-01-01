@@ -7,12 +7,6 @@ use Waavi\ReCaptcha\Test\TestCase;
 
 class ResponseTest extends TestCase
 {
-    public function setUp()
-    {
-        parent::setUp();
-        // Force the deferred autoloader to load
-        $this->app['recaptcha'];
-    }
     /**
      *  @test
      */
@@ -54,7 +48,7 @@ class ResponseTest extends TestCase
         $response = new Response($input);
         $this->assertFalse($response->isSuccess());
         $this->assertEquals(['missing-input-secret', 'invalid-input-secret'], $response->getErrorCodes());
-        $this->assertEquals(['The secret parameter is missing.', 'The secret parameter is invalid or malformed.'], $response->getErrorMessages());
+        $this->assertEquals([trans('recaptcha::recaptcha.error-codes.missing-input-secret'), trans('recaptcha::recaptcha.error-codes.invalid-input-secret')], $response->getErrorMessages());
     }
 
     /**
@@ -68,7 +62,7 @@ class ResponseTest extends TestCase
         $response = new Response($input);
         $this->assertFalse($response->isSuccess());
         $this->assertEquals(['unknown'], $response->getErrorCodes());
-        $this->assertEquals(['Unknown Google ReCaptcha error.'], $response->getErrorMessages());
+        $this->assertEquals([trans('recaptcha::recaptcha.error-codes.unknown')], $response->getErrorMessages());
     }
 
     /**
@@ -83,7 +77,7 @@ class ResponseTest extends TestCase
         $response = new Response($input);
         $this->assertFalse($response->isSuccess());
         $this->assertEquals(['unknown'], $response->getErrorCodes());
-        $this->assertEquals(['Unknown Google ReCaptcha error.'], $response->getErrorMessages());
+        $this->assertEquals([trans('recaptcha::recaptcha.error-codes.unknown')], $response->getErrorMessages());
     }
 
     /**
@@ -95,6 +89,6 @@ class ResponseTest extends TestCase
         $response = new Response($input);
         $this->assertFalse($response->isSuccess());
         $this->assertEquals(['unknown'], $response->getErrorCodes());
-        $this->assertEquals(['Unknown Google ReCaptcha error.'], $response->getErrorMessages());
+        $this->assertEquals([trans('recaptcha::recaptcha.error-codes.unknown')], $response->getErrorMessages());
     }
 }

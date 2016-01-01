@@ -9,13 +9,6 @@ use Waavi\ReCaptcha\Validator;
 
 class ValidatorTest extends TestCase
 {
-    public function setUp()
-    {
-        parent::setUp();
-        // Force the deferred autoloader to load
-        $this->app['recaptcha'];
-    }
-
     /**
      *  @test
      */
@@ -54,6 +47,6 @@ class ValidatorTest extends TestCase
         $validator = $this->app['validator']->make($input, $rules);
         $this->assertFalse($validator->passes());
         $errorMsg = $validator->errors()->all()[0];
-        $this->assertEquals(trans('recaptcha::validation-error'), $errorMsg);
+        $this->assertEquals('ReCaptcha error', $errorMsg);
     }
 }

@@ -11,7 +11,7 @@ class ReCaptchaServiceProvider extends ServiceProvider
      *
      * @var bool
      */
-    protected $defer = true;
+    protected $defer = false;
 
     /**
      * Bootstrap the application events.
@@ -48,17 +48,6 @@ class ReCaptchaServiceProvider extends ServiceProvider
         $this->app->bind('Waavi\ReCaptcha\Validator', function ($app) {
             return new Validator($app['recaptcha']);
         });
-
-        $this->app->make('validator')->extendImplicit('recaptcha', 'Waavi\ReCaptcha\Validator@validate', $this->app->make('translator')->get('recaptcha::validation-error'));
-    }
-
-    /**
-     * Get the services provided by the provider.
-     *
-     * @return array
-     */
-    public function provides()
-    {
-        return ['recaptcha', 'recaptcha.broker'];
+        $this->app->make('validator')->extendImplicit('recaptcha', 'Waavi\ReCaptcha\Validator@validate', 'ReCaptcha error');
     }
 }
