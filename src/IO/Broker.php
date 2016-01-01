@@ -17,7 +17,7 @@ class Broker
             'secret'   => $this->secret,
             'response' => $input,
         ]);
-        $url = $this->url . $parameters;
+        $url = $this->url . '?' . $parameters;
 
         $curl = curl_init($url);
         curl_setopt($curl, CURLOPT_HEADER, false);
