@@ -33,6 +33,16 @@
             "Waavi\\ReCaptcha\\Test\\": "tests"
         }
     },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Waavi\\ReCaptcha\\ReCaptchaServiceProvider"
+            ],
+            "aliases": {
+                "ReCaptcha": "Waavi\\ReCaptcha\\Facades\\ReCaptcha"
+            }
+        }
+    },
     "minimum-stability": "dev",
     "scripts": {
         "test": "vendor/bin/phpunit"
